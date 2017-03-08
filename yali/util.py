@@ -173,9 +173,10 @@ def isEfi():
     global efi
     if efi is not None:
         return efi
-
+    
     efi = False
-    if os.path.exists("/sys/firmware/efi"):
+    # use current kernel
+    if os.system("dmidecode -t 0 | grep UEFI") == 0:#os.path.exists("/sys/firmware/efi"):
         efi = True
 
     return efi

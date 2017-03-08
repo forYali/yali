@@ -151,7 +151,8 @@ def init_gui_interface():
 
 def init_gui_runner():
     from yali.gui.runner import Runner
-    gui_runner = Runner()
+    print("init gui")
+    gui_runner = Runner(app)
     gui_runner.run()
 
 def load_options(argv=None):
@@ -244,13 +245,14 @@ def main():
         from yali.storage import Storage
         ctx.storage = Storage()
     
-    print "jhbjhb"
+    
     if not ctx.bootloader:
         from yali.storage.bootloader import BootLoader
         ctx.bootloader = BootLoader(ctx.storage)
     
     ctx.flags.parse_kernel_options(ctx)
     
+    print("basliyor")
     init_gui_runner()
 
 

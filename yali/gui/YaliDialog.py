@@ -14,29 +14,29 @@ import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
 
-from PyQt5.Qt import Qt
-from PyQt5.Qt import QWidget
-from PyQt5.Qt import pyqtSignal
-from PyQt5.Qt import QHBoxLayout
-from PyQt5.Qt import QVBoxLayout
-from PyQt5.Qt import QLabel
-from PyQt5.Qt import QSpacerItem
-from PyQt5.Qt import QSizePolicy
-from PyQt5.Qt import QPushButton
-from PyQt5.Qt import QDialog
-from PyQt5.Qt import QObject
-from PyQt5.Qt import QMetaObject
-from PyQt5.Qt import QFrame
-from PyQt5.Qt import QPainter
-from PyQt5.Qt import QColor
-from PyQt5.Qt import QPixmap
-from PyQt5.Qt import QMessageBox
-from PyQt5.Qt import QSize
-from PyQt5.Qt import QShortcut
-from PyQt5.Qt import QGridLayout
-from PyQt5.Qt import QMovie
-from PyQt5.Qt import QTimer
-from PyQt5.Qt import QBasicTimer
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QSpacerItem
+from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QMetaObject
+from PyQt5.QtWidgets import QFrame
+from PyQt5.QtGui import QPainter
+from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtWidgets import QGridLayout
+from PyQt5.QtGui import QMovie
+from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QBasicTimer
 
 import pisi
 import yali

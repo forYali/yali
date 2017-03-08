@@ -12,7 +12,9 @@
 import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.Qt import QWidget, pyqtSignal, QPixmap, Qt, QListWidgetItem, QSize, QTimeLine, QTimer
+from PyQt5.QtWidgets import QWidget, QListWidgetItem
+from PyQt5.QtCore import pyqtSignal, Qt, QSize, QTimeLine, QTimer
+from PyQt5.QtGui import QPixmap
 
 import yali.util
 import yali.context as ctx
