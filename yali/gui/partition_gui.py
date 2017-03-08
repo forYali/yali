@@ -319,6 +319,7 @@ class PartitionWidget(QtWidgets.QWidget, Ui_PartitionWidget):
         self.enableMountpoint(format)
 
     def mountPointChanged(self, index):
+        print "mount point", self.mountpointMenu.itemText(index)
         if yali.util.isEfi() and self.mountpointMenu.itemText(index) == "/boot/efi":
             self.filesystemMenu.setCurrentIndex(self.filesystemMenu.findText(formats.getFormat("efi").name))
         elif self.mountpointMenu.itemText(index) == "/boot":

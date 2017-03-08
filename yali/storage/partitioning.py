@@ -370,7 +370,7 @@ def clearPartitions(storage):
             nativeLabelType = "gpt"
         else:
             nativeLabelType = "msdos"
-
+        print "nativeLabelType->{}".format(nativeLabelType)
         if disk.format.labelType == nativeLabelType:
             continue
 
