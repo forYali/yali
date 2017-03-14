@@ -24,7 +24,7 @@ import gettext
 __trans = gettext.translation('yali', fallback=True)
 _ = __trans.ugettext
 
-import _sysutils
+#import _sysutils | import edildiğinde yalı başlamıyor hata :QWidget qapplication QWidget: Must construct a QApplication before a QWidget
 
 def available_space(path):
     return _sysutils.device_space_free(path)
