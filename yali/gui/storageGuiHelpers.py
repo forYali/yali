@@ -3,7 +3,7 @@
 import math
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
@@ -67,7 +67,7 @@ class PhysicalVolumeItem(QtWidgets.QWidget):
             self.editor.pvs.remove(self.pv)
             try:
                 self.widget.tmpVolumeGroup
-            except Exception, msg:
+            except Exception as msg:
                 self.editor.intf.messageWindow(_("Not enough space"),
                                                _("You cannot remove this physical volume because\n"
                                                  "otherwise the volume group will be too small to\n"

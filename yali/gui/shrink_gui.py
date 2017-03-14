@@ -3,7 +3,7 @@
 import math
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import *
@@ -99,7 +99,7 @@ class ShrinkWidget(QtWidgets.QWidget, Ui_ShrinkPartitionWidget):
                 geomsize = request.partedPartition.geometry.getSize(unit="MB")
                 if (geomsize != 0) and (requestupper > geomsize):
                     requestupper = geomsize
-        except FilesystemError, msg:
+        except FilesystemError as msg:
             ctx.logger.error("Shrink Widget update spin gives error:%s" % msg)
         else:
             self.sizeSpin.setRange(max(1, requestlower), requestupper)

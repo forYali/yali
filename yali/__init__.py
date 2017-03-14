@@ -13,7 +13,7 @@ import os
 import logging
 import logging.handlers
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import yali.context as ctx
 

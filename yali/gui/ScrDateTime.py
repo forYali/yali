@@ -11,7 +11,7 @@
 #
 
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.QtWidgets import QWidget, QComboBox
 from PyQt5.QtCore import pyqtSignal, QTimer, QDate, QTime
@@ -46,7 +46,7 @@ class Widget(QWidget, ScreenWidget):
 
         for country, data in yali.localedata.locales.items():
             if country == ctx.consts.lang:
-                if data.has_key("timezone"):
+                if "timezone" in data:
                     ctx.installData.timezone = data["timezone"]
 
         # Append continents and countries the time zone dictionary
@@ -112,7 +112,7 @@ class Widget(QWidget, ScreenWidget):
                 self.current_zone = { "continent":continent_pretty_name, "country":country_pretty_name}
 
             # Append to dictionary
-            if self.tz_dict.has_key(continent_pretty_name):
+            if continent_pretty_name in self.tz_dict:
                 self.tz_dict[continent_pretty_name].append([country_pretty_name, zone])
             else:
                 self.tz_dict[continent_pretty_name] = [[country_pretty_name, zone]]

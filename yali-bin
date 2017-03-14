@@ -13,7 +13,12 @@
 import os
 import sys
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+a = gettext.translation('yali', fallback=True)
+print(type(a))
+qq = dir(a)
+for q in qq:
+    print(q)
+_ = gettext.translation('yali', fallback=True).gettext
 
 import yali
 import yali.context as ctx
@@ -200,7 +205,7 @@ def load_options(argv=None):
 def main():
     # Only root can run that application
     if os.getuid() != 0:
-        print "%s must be run as root." % sys.argv[0]
+        print( "%s must be run as root." % sys.argv[0])
         sys.exit(1)
 
     # Terminate plymouth daemon if needed

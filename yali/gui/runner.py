@@ -15,7 +15,7 @@ import sys
 import imp
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QStyleFactory
@@ -53,7 +53,7 @@ class Runner():
         # Main Window Initialized..
         try:
             self._window = yali.gui.YaliWindow.Widget()
-        except yali.Error, msg:
+        except yali.Error as msg:
             ctx.logger.debug(msg)
             sys.exit(1)
 
@@ -116,7 +116,7 @@ class Runner():
                 loaded = imp.load_module(module_name, *found)
                 screenClass = loaded.__dict__["Widget"]
                 
-            except ImportError, msg:
+            except ImportError as msg:
                 ctx.logger.debug(msg)
                 rc = ctx.interface.messageWindow(_("Error!"),
                                                  _("An error occurred when attempting "

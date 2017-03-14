@@ -5,7 +5,7 @@ import os
 import block
 import parted
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import yali.context as ctx
 from yali.storage import StorageError
@@ -1520,7 +1520,10 @@ class DeviceTree(object):
                 self._addDevice(lv_device)
                 try:
                     lv_device.setup()
-                except DeviceError as (msg, name):
+                #except DeviceError as (msg, name):
+                #FIXME: Ilker Manap, exception with two parameters..
+                except DeviceError as  name:
+                    msg = " msg initialization problem, check FIXME"
                     ctx.logger.info("setup of %s failed: %s" % (lv_device.name, msg))
 
         return ret
@@ -1625,7 +1628,7 @@ class DeviceTree(object):
             new_devices = udev_get_block_devices()
 
             for new_device in new_devices:
-                if not old_devices.has_key(new_device['name']):
+                if not (new_device['name'] in  old_devices):
                     old_devices[new_device['name']] = new_device
                     devices.append(new_device)
 

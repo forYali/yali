@@ -44,7 +44,7 @@ def initialize(ui, with_comar = False, nodestDir = False):
 
     try:
         pisi.api.set_dbus_timeout(1200)
-    except AttributeError, e:
+    except AttributeError as e:
         # An old pisi running on disc, forget the dbus
         pass
 
@@ -57,7 +57,7 @@ def addRepo(name=None, uri=None):
     try:
         if name and uri:
             pisi.api.add_repo(name, uri)
-    except pisi.Error, msg:
+    except pisi.Error as msg:
         ctx.logger.debug("Error occured while %(repo)s repo is adding:%(msg)s" %
                          {"repo":name, "msg":msg})
 

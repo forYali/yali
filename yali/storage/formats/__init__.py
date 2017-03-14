@@ -5,7 +5,7 @@ import os
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 import yali.context as ctx
@@ -66,7 +66,7 @@ def collect_device_formats():
             module_name = moduleFile[:-3]
             try:
                 globals()[module_name] = __import__(module_name, globals(), locals(), [], -1)
-            except ImportError, e:
+            except ImportError as e:
                 ctx.logger.debug("import of device format module '%s' failed" % module_name)
 
 def get_device_format(formatType):
@@ -197,7 +197,7 @@ class Format(object):
         if self.device.startswith("/dev/mapper/"):
             try:
                 name = devicemapper.dm_node_from_name(os.path.basename(self.device))
-            except Exception, e:
+            except Exception as e:
                 ctx.logger.warning("failed to get dm node for %s" % self.device)
                 return
         elif self.device:
@@ -206,7 +206,7 @@ class Format(object):
         path = yali.util.get_sysfs_path_by_name(name)
         try:
             yali.util.notify_kernel(path, action="change")
-        except Exception, e:
+        except Exception as e:
             ctx.logger.warning("failed to notify kernel of change: %s" % e)
 
 

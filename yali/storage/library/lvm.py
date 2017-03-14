@@ -7,7 +7,7 @@ import math
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 from yali.storage.library import  LibraryError

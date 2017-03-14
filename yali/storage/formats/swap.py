@@ -4,7 +4,7 @@ from parted import PARTITION_SWAP, fileSystemType
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 from yali.storage.library.swap import swapon, swap_off, swap_status, mkswap, SwapError
 from yali.storage.formats import Format, FormatError, register_device_format
@@ -115,8 +115,8 @@ class SwapSpace(Format):
         if self.status:
             try:
                 swap_off(self.device)
-            except SwapError, msg:
-                raise SwapSpaceError, msg
+            except SwapError as msg:
+                raise SwapSpaceError(msg)
 
     def create(self, *args, **kwargs):
         """ Create the device. """
@@ -132,8 +132,8 @@ class SwapSpace(Format):
         try:
             Format.create(self, *args, **kwargs)
             mkswap(self.device, label=self.label)
-        except Exception, msg:
-            raise SwapSpaceError, msg
+        except Exception as msg:
+            raise SwapSpaceError(msg)
         else:
             self.exists = True
 

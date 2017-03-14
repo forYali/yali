@@ -11,7 +11,7 @@
 #
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal
 
@@ -21,7 +21,7 @@ from yali.gui.Ui.autopartwidget import Ui_AutoPartWidget
 from yali.gui.shrink_gui import ShrinkEditor
 from yali.storage.partitioning import CLEARPART_TYPE_ALL, CLEARPART_TYPE_LINUX, CLEARPART_TYPE_NONE, doAutoPartition, defaultPartitioning
 
-USE_ALL_SPACE, SHRINK_CURRENT, FREE_SPACE, CUSTOM = xrange(4)
+USE_ALL_SPACE, SHRINK_CURRENT, FREE_SPACE, CUSTOM = range(4)
 
 class Widget(QWidget, ScreenWidget):
     name = "automaticPartitioning"
@@ -102,7 +102,7 @@ class Widget(QWidget, ScreenWidget):
 
             try:
                 returncode = doAutoPartition(self.storage)
-            except Exception, msg:
+            except Exception as msg:
                 ctx.logger.debug(msg)
                 ctx.mainScreen.enableBack()
             else:

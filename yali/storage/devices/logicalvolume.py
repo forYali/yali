@@ -3,7 +3,7 @@
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.context as ctx
 from yali.util import numeric_type
@@ -194,7 +194,7 @@ class LogicalVolume(DeviceMapper):
         if self.status:
             try:
                 lvm.lvdeactivate(self.vg.name, self._name)
-            except lvm.LVMError, msg:
+            except lvm.LVMError as msg:
                 ctx.logger.debug("lv %s deactivate failed; continuing" % self._name)
 
 
@@ -221,7 +221,7 @@ class LogicalVolume(DeviceMapper):
 
             # should we use --zero for safety's sake?
             lvm.lvcreate(self.vg.name, self._name, self.size)
-        except Exception, msg:
+        except Exception as msg:
             raise LogicalVolumeError("Create device failed", self._name)
         else:
             # FIXME set / update self.uuid here

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal, QObject, QSize, Qt
@@ -121,7 +121,7 @@ class RaidEditor(object):
                                                         parents=raidmembers,
                                                         totalDevices=len(raidmembers),
                                                         memberDevices=members)
-                except ValueError, msg:
+                except ValueError as msg:
                     self.intf.messageWindow(_("Invalid Raid Members"), unicode(msg),
                                             type="warning")
                     continue

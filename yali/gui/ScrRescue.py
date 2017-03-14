@@ -12,7 +12,7 @@
 import sys
 import os
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal, QListWidgetItem, QIcon
 

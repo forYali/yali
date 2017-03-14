@@ -10,7 +10,7 @@
 # Please read the COPYING file.
 #
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal
 import yali.context as ctx

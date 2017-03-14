@@ -4,7 +4,7 @@ import os
 import block
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 from device import Device, DeviceError
 from yali.storage.library import devicemapper

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import os
 import copy

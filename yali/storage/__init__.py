@@ -3,7 +3,7 @@ import os
 import sys
 import parted
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import yali
 import yali.util
@@ -44,7 +44,7 @@ def complete(storage, intf):
     returncode = False
     try:
         storage.devicetree.teardownAll()
-    except DeviceTreeError, msg:
+    except DeviceTreeError as msg:
         ctx.logger.debug(_("Failed teardownAll in storage.complete with error:%s") % msg)
         return returncode
 
@@ -53,17 +53,25 @@ def complete(storage, intf):
     details = None
     try:
         storage.doIt()
-    except DeviceError as (msg, device):
+    #except DeviceError as  msg, device:
+    #FIXME: Ilker Manap. Old line is above gives syntax error.
+    #It is possible that using multiple variables on except structure is removed
+    except DeviceError as   device:
         title = _("Storage Device Error")
         message = _("There was an error encountered while "
                     "partitioning on device %s.") % (device,)
-        details = msg
+        #FIXME: msg should come from DeviceError, but gives syntax error above
+        #details = msg
+        details = "problem with msg, check FIXME's"
+        
         returncode = False
-    except FormatError as (msg, device):
+    #except FormatError as (msg, device):
+    #FIXME: Ilker Manap, multiple variables for except is removed.
+    except FormatError as  device:        
         title = _("Storage Format Error")
         message = _("There was an error encountered while "
                     "formatting on device %s.") % (device,)
-        details = "%s" % (msg,)
+        details = "%s" % ("problem with msg, check FIXME",)
         returncode = False
     else:
         ctx.logger.debug("Partitioning finished")
@@ -130,12 +138,12 @@ def mountExistingSystem(storage, intf, rootDevice, allowDirty=None, warnDirty=No
 
     try:
         storage.storageset.parseFSTab()
-    except FSTabError, msg:
+    except FSTabError as msg:
         ctx.logger.error("Parsing fstab file failed with:%s" % msg)
         rootDevice.format.unmount()
         rootDevice.teardown()
         return False
-    except Exception, msg:
+    except Exception as msg:
         ctx.logger.error("Unhandled exception:%s" % msg)
     else:
         dirtyDevs = []
@@ -206,7 +214,7 @@ class Storage(object):
         self.storageset = StorageSet(self.devicetree, ctx.consts.target_dir)
 
     def compareDisks(self, first, second):
-        if self.eddDict.has_key(first) and self.eddDict.has_key(second):
+        if (first in self.eddDict) and (second in self.eddDict):
             one = self.eddDict[first]
             two = self.eddDict[second]
             if (one < two):
@@ -215,9 +223,9 @@ class Storage(object):
                 return 1
 
         # if one is in the BIOS and the other not prefer the one in the BIOS
-        if self.eddDict.has_key(first):
+        if first in self.eddDict:
             return -1
-        if self.eddDict.has_key(second):
+        if second in  self.eddDict:
             return 1
 
         if first.startswith("hd"):
@@ -616,19 +624,19 @@ class Storage(object):
 
     def newPartition(self, *args, **kwargs):
         """ Return a new PartitionDevice instance for configuring. """
-        if kwargs.has_key("fmt_type"):
+        if "fmt_type" in kwargs:
             kwargs["format"] = getFormat(kwargs.pop("fmt_type"),
                                          mountpoint=kwargs.pop("mountpoint",None),
                                          **kwargs.pop("fmt_args", {}))
 
-        if kwargs.has_key("disks"):
+        if "disks" in  kwargs:
             parents = kwargs.pop("disks")
             if isinstance(parents, Device):
                 kwargs["parents"] = [parents]
             else:
                 kwargs["parents"] = parents
 
-        if kwargs.has_key("name"):
+        if "name" in kwargs:
             name = kwargs.pop("name")
         else:
             name = "req%d" % self.nextID
@@ -642,7 +650,7 @@ class Storage(object):
             if pv not in self.devices:
                 raise ValueError("pv is not in the device tree")
 
-        if kwargs.has_key("name"):
+        if "name" in kwargs:
             name = kwargs.pop("name")
         else:
             name = self.createSuggestedVolumeGroupName()
@@ -654,15 +662,15 @@ class Storage(object):
 
     def newLogicalVolume(self, *args, **kwargs):
         """ Return a new LogicalVolumeDevice instance. """
-        if kwargs.has_key("vg"):
+        if "vg" in kwargs:
             vg = kwargs.pop("vg")
 
         mountpoint = kwargs.pop("mountpoint", None)
-        if kwargs.has_key("fmt_type"):
+        if "fmt_type" in kwargs:
             kwargs["format"] = getFormat(kwargs.pop("fmt_type"),
                                          mountpoint=mountpoint)
 
-        if kwargs.has_key("name"):
+        if "name" in kwargs:
             name = kwargs.pop("name")
         else:
             if kwargs.get("format") and kwargs["format"].type == "swap":
@@ -680,16 +688,16 @@ class Storage(object):
 
     def newRaidArray(self, *args, **kwargs):
         """ Return a new MDRaidArrayDevice instance for configuring. """
-        if kwargs.has_key("fmt_type"):
+        if "fmt_type" in kwargs):
             kwargs["format"] = getFormat(kwargs.pop("fmt_type"),
                                          mountpoint=kwargs.pop("mountpoint",None))
 
-        if kwargs.has_key("minor"):
+        if "minor" in kwargs:
             kwargs["minor"] = int(kwargs["minor"])
         else:
             kwargs["minor"] = self.unusedRaidMinors[0]
 
-        if kwargs.has_key("name"):
+        if "name" in kwargs:
             name = kwargs.pop("name")
         else:
             name = "md%d" % kwargs["minor"]

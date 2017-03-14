@@ -22,7 +22,7 @@ import hashlib
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import _sysutils
 

@@ -122,7 +122,7 @@ def udev_enumerate_block_devices():
 
 def udev_get_block_device(sysfs_path):
     dev = udev_get_device(sysfs_path)
-    if not dev or not dev.has_key("name"):
+    if not dev or not ("name" in dev):
         return None
     else:
         return dev
@@ -153,7 +153,7 @@ def udev_device_get_label(udev_info):
 
 def udev_device_is_dm(info):
     """ Return True if the device is a device-mapper device. """
-    return info.has_key("DM_NAME")
+    return "DM_NAME" in info
 
 def udev_device_is_md(info):
     """ Return True if the device is a mdraid array device. """
@@ -161,7 +161,7 @@ def udev_device_is_md(info):
     if udev_device_is_partition(info):
         return False
     # isw raid set *members* have MD_METADATA set, but are not arrays!
-    return info.has_key("MD_METADATA") and \
+    return "MD_METADATA" in info  and \
            info.get("ID_FS_TYPE") != "isw_raid_member"
 
 def udev_device_is_cciss(info):
@@ -276,7 +276,7 @@ def udev_device_get_path(info):
     return info["ID_PATH"]
 
 def udev_device_get_by_path(info):
-    if info.has_key('symlinks'):
+    if "symlinks" in info:
         for link in info['symlinks']:
             if link.startswith('/dev/disk/by-path/'):
                 return link
@@ -421,7 +421,7 @@ def udev_device_is_biosraid_member(info):
     # dmraid will be everything that is raid and not linux_raid_member
     from formats.dmraidmember import DMRaidMember
     from formats.raidmember import RaidMember
-    if info.has_key("ID_FS_TYPE") and \
+    if ("ID_FS_TYPE" in info) and \
             (info["ID_FS_TYPE"] in DMRaidMember._udevTypes or \
              info["ID_FS_TYPE"] in RaidMember._udevTypes) and \
             info["ID_FS_TYPE"] != "linux_raid_member":

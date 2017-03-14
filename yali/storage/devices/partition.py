@@ -7,7 +7,7 @@ import block
 
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.baseudev
 import yali.context as ctx
@@ -377,16 +377,16 @@ class Partition(Device):
 
             try:
                 self.disk.format.commit()
-            except DiskLabelCommitError, msg:
+            except DiskLabelCommitError as msg:
                 part = self.disk.format.partedDisk.getPartitionByPath(self.path)
                 self.disk.format.removePartition(part)
-                raise PartitionError, msg
+                raise PartitionError( msg)
 
             if not self.isExtended:
                 # Ensure old metadata which lived in freespace so did not get
                 # explictly destroyed by a destroyformat action gets wiped
                 Format(device=self.path, exists=True).destroy()
-        except Exception, msg:
+        except Exception as msg:
             raise PartitionError("Create device failed!", self.name)
         else:
             self.partedPartition = self.disk.format.partedDisk.getPartitionByPath(self.path)
@@ -452,10 +452,10 @@ class Partition(Device):
         self.disk.originalFormat.removePartition(self.partedPartition)
         try:
             self.disk.originalFormat.commit()
-        except DiskLabelCommitError, msg:
+        except DiskLabelCommitError as msg:
             self.disk.originalFormat.addPartition(self.partedPartition)
             self.partedPartition = self.disk.originalFormat.partedDisk.getPartitionByPath(self.path)
-            raise PartitionError, msg
+            raise PartitionError( msg)
 
         self.exists = False
 

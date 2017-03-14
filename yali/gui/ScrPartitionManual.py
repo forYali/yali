@@ -12,7 +12,7 @@
 import copy
 import parted
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal, QMenu, QTreeWidgetItem, QIcon, QAction
 
@@ -294,14 +294,14 @@ class Widget(QWidget, ScreenWidget):
 
                     if device and device.isExtended:
                         if extendedItem:
-                            raise RuntimeError, _("Can't handle more than "
-                                                 "one extended partition per disk")
+                            raise RuntimeError( _("Can't handle more than "
+                                                 "one extended partition per disk"))
                         extendedItem = partItem = DeviceTreeItem(diskItem)
                         partitionItem = extendedItem
 
                     elif device and device.isLogical:
                         if not extendedItem:
-                            raise RuntimeError, _("Crossed logical partition before extended")
+                            raise RuntimeError( _("Crossed logical partition before extended"))
                         partitionItem = DeviceTreeItem(extendedItem)
 
                     else:
@@ -347,12 +347,12 @@ class Widget(QWidget, ScreenWidget):
             try:
                 doPartitioning(self.storage)
                 rc = 0
-            except PartitioningError, msg:
+            except PartitioningError as msg:
                 self.intf.messageWindow(_("Error Partitioning"), 
                                         _("Could not allocate requested partitions: %s.") % msg,
                                         customIcon="error")
                 rc = -1
-            except PartitioningWarning, msg:
+            except PartitioningWarning as msg:
                 rc = self.intf.messageWindow(_("Warning Partitioning"),
                                              _("Warning: %s.") % msg,
                                              customButtons=[_("Modify Partition"), _("Continue")],
@@ -387,7 +387,7 @@ class Widget(QWidget, ScreenWidget):
 
         try:
             freePartition = hasFreeDiskSpace(self.storage)
-        except AttributeError, msg:
+        except AttributeError as msg:
             ctx.logger.debug(msg)
         else:
             if freePartition:
@@ -517,8 +517,8 @@ class Widget(QWidget, ScreenWidget):
                     device = origDevice
 
                 if self.refresh():
-                    raise RuntimeError, ("Returning partitions to state "
-                                         "prior to edit failed")
+                    raise RuntimeError( ("Returning partitions to state "
+                                         "prior to edit failed"))
             else:
                 break
 
@@ -570,8 +570,8 @@ class Widget(QWidget, ScreenWidget):
                     self.storage.devicetree.removeOperation(operation)
 
                 if self.refresh():
-                    raise RuntimeError, ("Returning partitions to state "
-                                         "prior to edit failed")
+                    raise RuntimeError( ("Returning partitions to state "
+                                         "prior to edit failed"))
                 continue
             else:
                 break
@@ -592,8 +592,8 @@ class Widget(QWidget, ScreenWidget):
                 for operation in operation:
                     self.storage.devicetree.removeOperation(operation)
                     if self.refresh():
-                        raise RuntimeError, ("Returning partitions to state "
-                                             "prior to RAID edit failed")
+                        raise RuntimeError( ("Returning partitions to state "
+                                             "prior to RAID edit failed"))
                 continue
             else:
                 break
@@ -623,8 +623,8 @@ class Widget(QWidget, ScreenWidget):
                     device.req_disks = origDevice.req_disks
 
                 if self.refresh():
-                    raise RuntimeError, ("Returning partitions to state "
-                                         "prior to edit failed")
+                    raise RuntimeError( ("Returning partitions to state "
+                                         "prior to edit failed"))
             else:
                 break
 

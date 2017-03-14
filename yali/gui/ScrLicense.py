@@ -12,7 +12,7 @@
 import os
 import codecs
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal, QTextBrowser
 
@@ -65,7 +65,7 @@ class LicenseBrowser(QTextBrowser):
 
         try:
             self.setText(codecs.open(self.loadFile(), "r", "UTF-8").read())
-        except Exception, msg:
+        except Exception as msg:
             raise GUIError(msg)
 
     def loadFile(self):

@@ -4,7 +4,7 @@ import os
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 from yali.storage.library import  LibraryError
@@ -59,7 +59,7 @@ def raidLevel(descriptor):
         if isRaid(level, descriptor):
             return level
     else:
-        raise ValueError, "invalid raid level descriptor %s" % descriptor
+        raise ValueError( "invalid raid level descriptor %s" % descriptor)
 
 def isRaid(raid, raidlevel):
     """Return whether raidlevel is a valid descriptor of raid"""
@@ -73,7 +73,7 @@ def isRaid(raid, raidlevel):
     if raid in raid_descriptors:
         return raidlevel in raid_descriptors[raid]
     else:
-        raise ValueError, "invalid raid level %d" % raid
+        raise ValueError( "invalid raid level %d" % raid)
 
 def get_raid_min_members(raidlevel):
     """Return the minimum number of raid members required for raid level"""
@@ -88,7 +88,7 @@ def get_raid_min_members(raidlevel):
         if isRaid(raid, raidlevel):
             return min_members
 
-    raise ValueError, "invalid raid level %d" % raidlevel
+    raise ValueError("invalid raid level %d" % raidlevel)
 
 def get_raid_max_spares(raidlevel, nummembers):
     """Return the maximum number of raid spares for raidlevel."""
@@ -103,7 +103,7 @@ def get_raid_max_spares(raidlevel, nummembers):
         if isRaid(raid, raidlevel):
             return max_spares_func()
 
-    raise ValueError, "invalid raid level %d" % raidlevel
+    raise ValueError("invalid raid level %d" % raidlevel)
 
 def mdadm(args):
     rc, out, err = yali.util.run_batch("mdadm", args)

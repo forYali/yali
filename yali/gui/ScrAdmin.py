@@ -12,7 +12,7 @@
 import pardus.xorg
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.QtWidgets import QWidget, QLineEdit
 from PyQt5.QtCore import pyqtSignal, QTimer

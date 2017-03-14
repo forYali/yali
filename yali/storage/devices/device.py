@@ -5,7 +5,7 @@ import _ped
 import parted
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.baseudev
 import yali.context as ctx
@@ -175,7 +175,7 @@ class Device(AbstractDevice):
         path = os.path.normpath("/sys/%s" % self.sysfsPath)
         try:
             yali.util.notify_kernel(path, action="change")
-        except Exception, e:
+        except Exception as e:
             ctx.logger.warning("failed to notify kernel of change: %s" % e)
 
     @property

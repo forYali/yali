@@ -14,10 +14,11 @@ import os
 import re
 import time
 import dbus
+import stat
 import shutil
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import yali.util
 import yali.users
@@ -56,16 +57,16 @@ def initbaselayout():
     # /etc/passwd, /etc/shadow, /etc/group
     yali.util.cp("usr/share/baselayout/passwd", "etc/passwd")
     yali.util.cp("usr/share/baselayout/shadow", "etc/shadow")
-    os.chmod(os.path.join(ctx.consts.target_dir, "etc/shadow"), 0600)
+    os.chmod(os.path.join(ctx.consts.target_dir, "etc/shadow"), stat.S_IWRITE | stat.S_IREAD)
     yali.util.cp("usr/share/baselayout/group", "etc/group")
 
     # create empty log file
     yali.util.touch("var/log/lastlog")
 
-    yali.util.touch("run/utmp", 0664)
+    yali.util.touch("run/utmp",  stat.S_IWRITE | stat.S_IREAD | stat.S_IRGRP| stat.S_IWGRP | stat.S_IROTH)
     yali.util.chgrp("run/utmp", "utmp")
 
-    yali.util.touch("var/log/wtmp", 0664)
+    yali.util.touch("var/log/wtmp", stat.S_IWRITE | stat.S_IREAD | stat.S_IRGRP| stat.S_IWGRP | stat.S_IROTH)
     yali.util.chgrp("var/log/wtmp", "utmp")
 
     # create needed device nodes
@@ -217,7 +218,7 @@ def writeInitramfsConf():
         for parameter in parameters:
             try:
                 initramfs.write("%s\n" % parameter)
-            except IOError, msg:
+            except IOError as msg:
                 raise yali.Error("Unexpected error: %s" % msg)
 
 def setGrubResume():
@@ -277,7 +278,7 @@ def setupPrivileges():
         if user_defined_mountpoints:
             ctx.logger.debug("User defined mountpoints:%s" % [device.format.mountpoint for device in user_defined_mountpoints])
             for device in user_defined_mountpoints:
-                yali.util.set_partition_privileges(device, 0770, 0, 6)
+                yali.util.set_partition_privileges(device, stat.S_IRWXU | stat.S_IRWXG , 0, 6)
 
     ctx.logger.debug("setupPrivileges:StorageSet not activated")
     return False

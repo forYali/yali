@@ -14,7 +14,7 @@ import os
 import dbus
 import pisi
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal, QListWidgetItem, QIcon, QObject, QEvent
 

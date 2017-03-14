@@ -34,7 +34,7 @@ def find_library(name, somajor=0):
 libudev = find_library(name="udev", somajor=1)
 
 if not libudev or not os.path.exists(libudev):
-    raise ImportError, "No library named %s" % libudev
+    raise ImportError( "No library named %s" % libudev)
 
 # load the udev library
 libudev = CDLL(libudev)

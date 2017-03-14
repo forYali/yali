@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from yali.gui.YaliDialog import MessageWindow, InformationWindow, ProgressWindow, ExceptionWindow
 

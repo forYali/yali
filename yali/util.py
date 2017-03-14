@@ -18,10 +18,11 @@ import stat
 import errno
 import time
 import dbus
+import stat
 import ConfigParser
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 import comar
 import pisi
@@ -40,7 +41,7 @@ def cp(source, destination):
     ctx.logger.info("Copying from '%s' to '%s'" % (source, destination))
     shutil.copyfile(source, destination)
 
-def touch(path, mode=0644):
+def touch(path, mode= stat.S_IREAD | stat.S_IWRITE | stat.S_IRGRP| stat.S_IROTH):
     f = os.path.join(ctx.consts.target_dir, path)
     open(f, "w", mode).close()
 
@@ -116,7 +117,7 @@ def get_edd_dict(devices):
     mbrs = edd.list_mbr_signatures()
 
     for number, signature in edds.items():
-        if mbrs.has_key(signature):
+        if signature in mbrs:
             if mbrs[signature] in devices:
                 eddDevices[os.path.basename(mbrs[signature])] = number
     return eddDevices
@@ -260,7 +261,7 @@ def get_sysfs_path_by_name(dev_name, class_name="block"):
 
 def mkdirChain(dir):
     try:
-        os.makedirs(dir, 0755)
+        os.makedirs(dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH| stat.S_IXOTH )
     except OSError as e:
         try:
             if e.errno == errno.EEXIST and stat.S_ISDIR(os.stat(dir).st_mode):
@@ -290,7 +291,7 @@ def mount(device, location, filesystem, readOnly=False,
     else:
         opts = options.split(",")
 
-    if ctx.mountCount.has_key(location) and ctx.mountCount[location] > 0:
+    if location in ctx.mountCount and ctx.mountCount[location] > 0:
         ctx.mountCount[location] = ctx.mountCount[location] + 1
         return
 
@@ -318,9 +319,9 @@ def umount(location, removeDir=True):
     location = os.path.normpath(location)
 
     if not os.path.isdir(location):
-        raise ValueError, "util.umount() can only umount by mount point. %s is not existing directory" % location
+        raise ValueError( "util.umount() can only umount by mount point. %s is not existing directory" % location)
 
-    if ctx.mountCount.has_key(location) and ctx.mountCount[location] > 1:
+    if location in ctx.mountCount and ctx.mountCount[location] > 1:
         ctx.mountCount[location] = ctx.mountCount[location] - 1
         return
 
@@ -333,7 +334,7 @@ def umount(location, removeDir=True):
         except:
             pass
 
-    if not rc and ctx.mountCount.has_key(location):
+    if not rc and  (location in ctx.mountCount):
         del ctx.mountCount[location]
 
     return rc
@@ -438,10 +439,10 @@ def backup_log(remove=False):
         shutil.copyfile("/var/log/yali.log", os.path.join(ctx.consts.target_dir, "var/log/yaliInstall.log"))
         if remove:
             os.remove("/var/log/yali.log")
-    except IOError, msg:
+    except IOError as msg:
         ctx.logger.debug("YALI log file doesn't exists.")
         return False
-    except Exception, msg:
+    except Exception as msg:
         ctx.logger.debug("File paths are the same.")
         return False
     else:
@@ -519,14 +520,14 @@ def write_config_option(conf_file, section, option, value):
 def parse_branding_screens(release_file):
     try:
         document = piksemel.parse(release_file)
-    except OSError, msg:
+    except OSError as msg:
         if msg.errno == 2:
-            raise yali.Error, _("Release file is missing")
+            raise yali.Error( _("Release file is missing"))
     except piksemel.ParseError:
-        raise yali.Error, _("Release file is inconsistent")
+        raise yali.Error( _("Release file is inconsistent"))
 
     if document.name() != "Release":
-        raise yali.Error, _("Invalid xml file")
+        raise yali.Error( _("Invalid xml file"))
 
     screens = {}
     screens_tag = document.getTag("screens")
@@ -562,14 +563,14 @@ def parse_branding_screens(release_file):
 def parse_branding_slideshows(release_file):
     try:
         document = piksemel.parse(release_file)
-    except OSError, msg:
+    except OSError as msg:
         if msg.errno == 2:
-            raise yali.Error, _("Release file is missing")
+            raise yali.Error( _("Release file is missing"))
     except piksemel.ParseError:
-        raise yali.Error, _("Release file is inconsistent")
+        raise yali.Error( _("Release file is inconsistent"))
 
     if document.name() != "Release":
-        raise yali.Error, _("Invalid xml file")
+        raise yali.Error( _("Invalid xml file"))
 
     slideshows = []
     slideshows_tag = document.getTag("slideshows")
@@ -597,7 +598,7 @@ def set_partition_privileges(device, mode, uid, gid):
         try:
             os.chmod(device_path, mode)
             os.chown(device_path, uid, gid)
-        except OSError, msg:
+        except OSError as  msg:
                 ctx.logger.debug("Unexpected error: %s" % msg)
 
 def grub_disk_name(storage, device, exists=False):
@@ -678,7 +679,7 @@ def get_collections():
         title = ""
         description = ""
         locale = os.environ["LANG"].split(".")[0]
-        if not translations.has_key(locale):
+        if not (locale in translations):
             ctx.logger.debug("Collection (%s) has no translation in %s locale. Default language (%s) is setting ..." %
                                                             (id, locale, translations["default"]))
             locale = translations["default"]
@@ -689,7 +690,7 @@ def get_collections():
 
     try:
         piksemelObj = piksemel.parse(ctx.consts.pisi_collection_file)
-    except OSError, msg:
+    except OSError as msg:
         ctx.logger.debug("Unexcepted error:%s" % msg)
     else:
         default = False

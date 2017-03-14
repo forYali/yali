@@ -159,7 +159,7 @@ class kahya:
             self.correctData.timezone = self.data.timezone
 
         ###language selection###
-        if locales.has_key(self.data.language):
+        if self.data.language in locales:
             self.correctData.language=self.data.language
         else:
             error.Lang=True

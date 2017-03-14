@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import copy
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.QtWidgets import QWidget, QTreeWidgetItem
 from PyQt5.QtCore import pyqtSignal, QObject, QSize
@@ -78,7 +78,7 @@ class LVMEditor(object):
             operations = []
             if not rc:
                 if self.isNew:
-                    if self.lvs.has_key(self.origrequest.name):
+                    if self.origrequest.name in  self.lvs:
                         del self.lvs[self.origrequest.name]
                 self.destroy()
                 return []
@@ -368,7 +368,7 @@ class VolumeGroupWidget(QWidget, Ui_VolumeGroupWidget):
             return waste
 
         def computeVolumeGroupSize(pvs, curpe):
-            availSpace = 0L
+            availSpace = 0
             for pv in pvs:
                 # have to clamp pvsize to multiple of PE
                 # XXX why the suboperation? fudging metadata?
@@ -597,7 +597,7 @@ class LogicalVolumeEditor:
 
             if not rc:
                 if self.isNew:
-                    if self.parent.parent.lvs.has_key(self.origrequest.lvname):
+                    if self.origrequest.lvname in self.parent.parent.lvs:
                         del self.parent.parent.lvs[self.origrequest.lvname]
                 self.destroy()
                 return None
@@ -715,7 +715,7 @@ class LogicalVolumeEditor:
                 self.origrequest._name = name
                 try:
                     self.origrequest.size = size
-                except ValueError, msg:
+                except ValueError as msg:
                     self.intf.messageWindow(_("Not enough space"),
                                             _("The size entered for this "
                                               "logical volume (%(size)d MB) "
@@ -758,7 +758,7 @@ class LogicalVolumeEditor:
             # everything ok
             break
 
-        if self.parent.parent.lvs.has_key(origname) and origname != self.origrequest.lvname:
+        if origname in self.parent.parent.lvs and origname != self.origrequest.lvname:
             del self.parent.parent.lvs[origname]
 
         return {'name': self.origrequest.lvname,
@@ -895,7 +895,7 @@ class LogicalVolumeWidget(QWidget, Ui_LogicalVolumeWidget):
         if self.formatRadio.isVisible():
             self.radioButton.setChecked(True)
             self.formatRadio.setChecked(self.mountpointMenu.itemData(index))
-            print "lvm_gui.py line 897 must be bool", type(self.mountpointMenu.itemData(index))
+            print( "lvm_gui.py line 897 must be bool", type(self.mountpointMenu.itemData(index)))
 
 class LogicalVolumeItem(QTreeWidgetItem):
     def __init__(self, parent, device):

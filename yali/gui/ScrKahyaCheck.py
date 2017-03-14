@@ -11,7 +11,7 @@
 #
 
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal
 
@@ -75,7 +75,7 @@ class Widget(QWidget, ScreenWidget):
                 # find usable storage devices
                 # initialize all storage devices
                 if not yali.storage.initDevices():
-                    raise GUIError, _("No storage device found.")
+                    raise GUIError( _("No storage device found."))
 
                 devices = []
                 for dev in yali.storage.devices:

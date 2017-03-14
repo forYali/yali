@@ -3,7 +3,7 @@
 import os
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.context as ctx
 from device import Device, DeviceError

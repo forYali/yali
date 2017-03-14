@@ -53,7 +53,7 @@ class YaliBuild(build):
 
     def run(self):
         for ui_file in qt_ui_files():
-            print ui_file
+            print(ui_file)
             self.compileUI(ui_file)
             self.changeQRCPath(ui_file)
         build.run(self)
@@ -83,16 +83,16 @@ class YaliUninstall(Command):
     def run(self):
         yali_dir = os.path.join(get_python_lib(), "yali")
         if os.path.exists(yali_dir):
-            print "removing: ", yali_dir
+            print( "removing: ", yali_dir)
             shutil.rmtree(yali_dir)
 
         conf_dir = "/etc/yali"
         if os.path.exists(conf_dir):
-            print "removing: ", conf_dir
+            print("removing: ", conf_dir)
             shutil.rmtree(conf_dir)
         
         if os.path.exists("/usr/share/applications/yali.desktop"):
-            print "removing: rest of installation",
+            print("removing: rest of installation")
             os.unlink("/usr/share/applications/yali.desktop")
         os.unlink("/usr/bin/yali-bin")
         os.unlink("/usr/bin/start-yali")
@@ -104,7 +104,7 @@ class I18nInstall(install):
     def run(self):
         install.run(self)
         for lang in I18N_LANGUAGES:
-            print "Installing '%s' translations..." % lang
+            print( "Installing '%s' translations..." % lang)
             os.popen("msgfmt po/%s.po -o po/%s.mo" % (lang, lang))
             if not self.root:
                 self.root = "/"

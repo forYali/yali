@@ -3,7 +3,7 @@
 import os
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 from device import Device, DeviceError
@@ -28,7 +28,7 @@ class DirectoryDevice(FileDevice):
         self.setupParents()
         try:
             yali.util.mkdirChain(self.path)
-        except Exception, e:
+        except Exception as e:
             raise DirectoryDeviceError(e, self.name)
 
         self.exists = True

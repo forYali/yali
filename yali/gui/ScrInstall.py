@@ -14,7 +14,7 @@ from multiprocessing import Process, Queue
 from Queue import Empty
 
 import gettext
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QWidget, pyqtSignal, QPixmap, QObject, QTimer, QMutex, QWaitCondition
 
@@ -151,7 +151,7 @@ class Widget(QWidget, ScreenWidget):
             try:
                 data = self.queue.get_nowait()
                 event = data[0]
-            except Empty, msg:
+            except Empty as msg:
                 return
 
             ctx.logger.debug("checkQueueEvent: Processing %s event..." % event)
@@ -179,7 +179,7 @@ class Widget(QWidget, ScreenWidget):
 
             # EventPackageInstallFinished
             elif event == EventPackageInstallFinished:
-                print "***EventPackageInstallFinished called...."
+                print( "***EventPackageInstallFinished called....")
                 self.packageInstallFinished()
 
             # EventError
@@ -213,7 +213,7 @@ class Widget(QWidget, ScreenWidget):
     def changeSlideshows(self):
         slide = self.iter_slideshows.next()
         self.ui.slideImage.setPixmap(slide["picture"])
-        if slide["description"].has_key(ctx.consts.lang):
+        if ctx.consts.lang in slide["description"]:
             description = slide["description"][ctx.consts.lang]
         else:
             description = slide["description"]["en"]
@@ -300,7 +300,7 @@ class PkgInstaller(Process):
                 try:
                     yali.pisiiface.install(ctx.packagesToInstall)
                     break # while
-                except Exception, msg:
+                except Exception as msg:
                     # Lock the mutex
                     self.mutex.lock()
 
@@ -315,7 +315,7 @@ class PkgInstaller(Process):
                     if not self.retry_answer:
                         raise msg
 
-        except Exception, msg:
+        except Exception as msg:
             data = [EventError, msg]
             self.queue.put_nowait(data)
             # wait for the result
@@ -344,7 +344,7 @@ class PkgConfigurator(Process):
             # run all pending...
             ctx.logger.debug("exec : yali.pisiiface.configurePending() called")
             yali.pisiiface.configurePending()
-        except Exception, msg:
+        except Exception as msg:
             data = [EventError, msg]
             self.queue.put_nowait(data)
 

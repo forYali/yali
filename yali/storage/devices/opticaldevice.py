@@ -6,7 +6,7 @@ import parted
 
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.context as ctx
 import yali.util

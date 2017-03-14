@@ -6,7 +6,7 @@ import parted
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 import yali.context as ctx
@@ -46,10 +46,10 @@ def get_configs(rootpath):
         kernel = os.path.basename(sorted(kernels)[-1])
         kernelVersion = kernel[len("kernel-"):]
         initramfs = "initramfs-%s" % kernelVersion
-    except IOError, msg:
-        raise ReleaseError, msg
-    except IndexError, msg:
-        raise KernelError, msg
+    except IOError as msg:
+        raise ReleaseError(msg)
+    except IndexError as msg:
+        raise KernelError(msg)
     else:
         return (release, kernel, initramfs)
 

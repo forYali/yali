@@ -7,7 +7,7 @@ from operator import add, sub, gt, lt
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 import yali.context as ctx
@@ -370,7 +370,7 @@ def clearPartitions(storage):
             nativeLabelType = "gpt"
         else:
             nativeLabelType = "msdos"
-        print "nativeLabelType->{}".format(nativeLabelType)
+        print( "nativeLabelType->{}".format(nativeLabelType))
         if disk.format.labelType == nativeLabelType:
             continue
 
@@ -583,7 +583,7 @@ def getBestFreeSpaceRegion(disk, part_type, req_size, boot=None, best_free=None,
 
             try:
                 free_geom = extended.geometry.intersect(_range)
-            except ArithmeticError, e:
+            except ArithmeticError as e:
                 free_geom = None
 
             if (free_geom and part_type == parted.PARTITION_NORMAL) or \

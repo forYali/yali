@@ -5,7 +5,7 @@ import copy
 import parted
 import gettext
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 
 from PyQt5 import QtWidgets
@@ -319,7 +319,7 @@ class PartitionWidget(QtWidgets.QWidget, Ui_PartitionWidget):
         self.enableMountpoint(format)
 
     def mountPointChanged(self, index):
-        print "mount point", self.mountpointMenu.itemText(index)
+        print( "mount point", self.mountpointMenu.itemText(index))
         if yali.util.isEfi() and self.mountpointMenu.itemText(index) == "/boot/efi":
             self.filesystemMenu.setCurrentIndex(self.filesystemMenu.findText(formats.getFormat("efi").name))
         elif self.mountpointMenu.itemText(index) == "/boot":
@@ -327,5 +327,5 @@ class PartitionWidget(QtWidgets.QWidget, Ui_PartitionWidget):
 
         if self.formatRadio.isVisible():
             self.radioButton.setChecked(True)
-            print "partition_gui.py line 329 type must be bool ->", type(self.mountpointMenu.itemData(index))
+            print( "partition_gui.py line 329 type must be bool ->", type(self.mountpointMenu.itemData(index)))
             self.formatRadio.setChecked(self.mountpointMenu.itemData(index))

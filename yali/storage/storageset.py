@@ -7,7 +7,7 @@ import errno
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 import yali.context as ctx
@@ -319,8 +319,10 @@ class StorageSet(object):
                                                     type="error")
                     sys.exit(2)
 
-
-            except SystemError as (num, msg):
+            #except SystemError as (num, msg):
+            #FIXME: two attributes 
+            except SystemError as  msg:
+                num = 1
                 ctx.logger.error("SystemError: (%d) %s" % (num, msg) )
 
                 if ctx.interface.messageWindow and not device.format.linuxNative:
@@ -448,7 +450,10 @@ class StorageSet(object):
                     if swapError(msg, device):
                         continue
 
-                except DeviceError as (msg, name):
+                #except DeviceError as (msg, name):
+                #FIXME. exception with two attributes. old line above
+                except DeviceError as name:
+                    msg = " msg initialization problem, check FIXME "
                     if ctx.interface.messageWindow:
                         error = _("Error enabling swap device %(name)s: "
                                   "%(msg)s<br><br>"

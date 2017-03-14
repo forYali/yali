@@ -14,7 +14,7 @@ import sys
 import codecs
 import gettext
 
-_ = gettext.translation('yali', fallback=True).ugettext
+_ = gettext.translation('yali', fallback=True).gettext
 
 from PyQt5.Qt import QResource
 from PyQt5.Qt import QWidget
@@ -89,7 +89,7 @@ class Widget(QWidget):
             resource = QResource()
             resource.registerResource(self._resource)
         else:
-            raise yali.Error, _("Pixmaps resources file doesn't exists")
+            raise yali.Error( _("Pixmaps resources file doesn't exists"))
 
         self.ui = Ui_YaliMain()
         self.ui.setupUi(self)
@@ -122,14 +122,14 @@ class Widget(QWidget):
         if os.path.exists(self._style):
             self.updateStyle()
         else:
-            raise yali.Error, _("Style file doesn't exists")
+            raise yali.Error( _("Style file doesn't exists"))
 
         # set screens content
         release_file = os.path.join(ctx.consts.branding_dir, ctx.flags.branding, ctx.consts.release_file)
         if os.path.exists(release_file):
             self.screens_content = yali.util.parse_branding_screens(release_file)
         else:
-            raise yali.Error, _("Release file doesn't exists")
+            raise yali.Error( _("Release file doesn't exists"))
 
 
         # move one step at a time
@@ -331,12 +331,12 @@ class Widget(QWidget):
 
             widget_icon = self.screens_content[widget_id][0]
 
-            if self.screens_content[widget_id][1].has_key(ctx.consts.lang):
+            if ctx.consts.lang in self.screens_content[widget_id][1]:
                 widget_title = self.screens_content[widget_id][1][ctx.consts.lang]
             else:
                 widget_title = self.screens_content[widget_id][1]["en"]
 
-            if self.screens_content[widget_id][2].has_key(ctx.consts.lang):
+            if ctx.consts.lang in self.screens_content[widget_id][2]:
                 widget_help = self.screens_content[widget_id][2][ctx.consts.lang]
             else:
                 widget_help = self.screens_content[widget_id][2]["en"]
@@ -379,7 +379,7 @@ class Widget(QWidget):
             weave_object_method(disableNavButtonsAspect, screen, "execute")
             try:
                 self.ui.mainStack.addWidget(screen())
-            except Exception, msg:
+            except Exception as msg:
                 rc = ctx.interface.messageWindow(_("Error"),
                                                  _("An error occurred when attempting "
                                                     "to load screens:%s") % msg,
@@ -429,7 +429,7 @@ class ReleaseNotes(QTextBrowser):
 
         try:
             self.setText(codecs.open(self.loadFile(), "r", "UTF-8").read())
-        except Exception, msg:
+        except Exception as  msg:
             ctx.logger.error(_(msg))
 
     def loadFile(self):
@@ -439,4 +439,4 @@ class ReleaseNotes(QTextBrowser):
             releasenotes_path = os.path.join(ctx.consts.source_dir, "release-notes", "releasenotes-en.html")
         if os.path.exists(releasenotes_path):
             return releasenotes_path
-        raise Exception, _("Release notes could not be loaded.")
+        raise Exception( _("Release notes could not be loaded."))

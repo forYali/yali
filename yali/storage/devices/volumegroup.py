@@ -5,7 +5,7 @@ import math
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.context as ctx
 from yali.util import numeric_type
@@ -202,7 +202,7 @@ class VolumeGroup(DeviceMapper):
         """
         try:
             self.parents.remove(device)
-        except ValueError, e:
+        except ValueError  as e:
             raise ValueError("cannot remove non-member PV device from VG")
 
         device.removeChild()
@@ -250,8 +250,8 @@ class VolumeGroup(DeviceMapper):
 
             pv_list = [pv.path for pv in self.parents]
             lvm.vgcreate(self.name, pv_list, self.peSize)
-        except Exception, msg:
-            raise VolumeGroupError, msg
+        except Exception as msg:
+            raise VolumeGroupError(msg)
         else:
             # FIXME set / update self.uuid here
             self.exists = True

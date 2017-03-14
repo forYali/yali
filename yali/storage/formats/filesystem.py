@@ -9,7 +9,7 @@ import pardus.sysutils
 import gettext
 
 __trans = gettext.translation('yali', fallback=True)
-_ = __trans.ugettext
+_ = __trans.gettext
 
 import yali.util
 import yali.sysutils
@@ -1030,7 +1030,7 @@ class NTFSFilesystem(Filesystem):
                     try:
                         min = l.split(":")[1].strip()
                         minSize = int(min) + 250
-                    except Exception, e:
+                    except Exception as e:
                         minSize = None
                         ctx.logger.warning("Unable to parse output for minimum size on %s: %s" %(self.device, e))
 

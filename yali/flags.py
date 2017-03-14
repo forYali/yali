@@ -5,18 +5,18 @@ from pardus.sysutils import get_kernel_option
 class Flags:
 
     def __getattr__(self, attr):
-        if self.__dict__['flags'].has_key(attr):
+        if attr in self.__dict__['flags']:
             return self.__dict__['flags'][attr]
-        raise AttributeError, attr
+        raise AttributeError(attr)
 
     def __setattr__(self, attr, val):
-        if self.__dict__['flags'].has_key(attr):
+        if attr in self.__dict__['flags']:
             self.__dict__['flags'][attr] = val
         else:
-            raise AttributeError, attr
+            raise AttributeError(attr)
 
     def get(self, attr, val=None):
-        if self.__dict__['flags'].has_key(attr):
+        if attr in self.__dict__['flags']:
             return self.__dict__['flags'][attr]
         else:
             return val
@@ -25,40 +25,40 @@ class Flags:
        """Parse yali= from kernel boot parameters."""
 
        options = get_kernel_option("yali")
-       self.__dict__['flags']['live'] = options.has_key("live") or \
+       self.__dict__['flags']['live'] =  "live"  in options or \
                                         os.path.exists("/run/pisilinux/livemedia")
-       if options.has_key("system"):
+       if "system" in options:
            self.__dict__['flags']['install_type'] = ctx.STEP_BASE
-       elif options.has_key("firstboot"):
+       elif "firstboot" in options:
            self.__dict__['flags']['install_type'] = ctx.STEP_FIRST_BOOT
-       elif options.has_key("rescue") :
+       elif "rescue" in  options:
            self.__dict__['flags']['install_type'] = ctx.STEP_RESCUE
-       elif options.has_key("oem") :
+       elif "oem" in options :
            self.__dict__['flags']['install_type'] = ctx.STEP_OEM_INSTALL
-       elif options.has_key("default") :
+       elif "default" in  options :
            self.__dict__['flags']['install_type'] = ctx.STEP_DEFAULT
 
-       if options.has_key("theme") and \
+       if "theme" in options and \
        os.path.exists(os.path.join(ctx.consts.theme_dir, options["theme"])):
            self.__dict__['flags']['theme'] = options["theme"]
 
-       if options.has_key("branding") and \
+       if "branding" in options and \
        os.path.exists(os.path.join(ctx.consts.theme_dir, options["branding"])):
            self.__dict__['flags']['branding'] = options["branding"]
 
-       self.__dict__['flags']['kahya'] = options.has_key("kahyaFile") or \
+       self.__dict__['flags']['kahya'] = "kahyaFile" in options or \
                                          os.path.exists("/usr/share/yali/data/default.xml")
 
-       if options.has_key("nolvm"):
+       if "nolvm" in options:
            self.__dict__['flags']['partitioning_lvm'] = False
 
-       if options.has_key('baseonly') and \
+       if "baseonly" in options and \
        self.__dict__['flags']['install_type'] == ctx.STEP_BASE:
            self.__dict__['flags']['install_type'] = ctx.STEP_DEFAULT
 
-       if options.has_key("collection"):
+       if "collection" in options:
            self.__dict__['flags']['collection'] = True
-       elif options.has_key("nocollection"):
+       elif "nocollection" in  options:
            self.__dict__['flags']['collection'] = False
 
        for key in [_key for _key in options.keys() \
