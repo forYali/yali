@@ -152,7 +152,7 @@ def init_gui_interface():
 def init_gui_runner():
     from yali.gui.runner import Runner
     print("init gui")
-    gui_runner = Runner(app)
+    gui_runner = Runner()
     gui_runner.run()
 
 def load_options(argv=None):
