@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/reboot.h>
-
+#include <sys/sysmacros.h>
 
 PyDoc_STRVAR(umount__doc__,
 "umount(target)\n"
