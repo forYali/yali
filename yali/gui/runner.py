@@ -17,19 +17,19 @@ import gettext
 
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QStyleFactory
-from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QShortcut
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QKeySequence
-from PyQt5.QtCore import QTranslator
-from PyQt5.QtCore import QLocale
-from PyQt5.QtCore import QLibraryInfo
-from PyQt5.QtWidgets import QWidget
+from PyQt5.Qt import QTimer
+from PyQt5.Qt import QStyleFactory
+from PyQt5.Qt import QObject
+from PyQt5.Qt import QShortcut
+from PyQt5.Qt import Qt
+from PyQt5.Qt import QApplication
+from PyQt5.Qt import pyqtSignal
+from PyQt5.Qt import pyqtSlot
+from PyQt5.Qt import QKeySequence
+from PyQt5.Qt import QTranslator
+from PyQt5.Qt import QLocale
+from PyQt5.Qt import QLibraryInfo
+from PyQt5.Qt import QWidget
 
 import yali
 import yali.util
@@ -141,7 +141,7 @@ class Runner():
     def run(self):
         # Use default theme;
         # if you use different Qt4 theme our works looks ugly :)
-        self._application.setStyle(QStyleFactory.create('Brezee'))
+        self._application.setStyle(QStyleFactory.create('Breeze'))
         self._init_screen()
 
         self._application.installTranslator(self._translator)

@@ -3,8 +3,7 @@
 import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import pyqtSignal, QObject, QSize, Qt
+from PyQt5.Qt import QWidget, pyqtSignal, QObject, QSize, Qt
 
 from yali.gui.YaliDialog import Dialog
 from yali.gui.Ui.raid import Ui_RaidWidget
