@@ -83,6 +83,7 @@ class Constants:
         self.__c.pisilinux_repo_uri = "@REPO_URI@"
         self.__c.pisi_index_file = os.path.join(self.__c.data_dir,"data/pisi-index.xml.bz2")
         self.__c.pisi_index_file_sum = os.path.join(self.__c.data_dir,"data/pisi-index.xml.bz2.sha1sum")
+        locale.setlocale(locale.LC_ALL, "")#deneme amaçlı eklenmiştir
         self.__c.lang = locale.getdefaultlocale()[0][:2]
 
     def __getattr__(self, attr):
