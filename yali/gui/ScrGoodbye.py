@@ -13,8 +13,7 @@ import time
 import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPixmap
+from PyQt5.Qt import QWidget, QPixmap
 
 import yali.util
 import yali.context as ctx

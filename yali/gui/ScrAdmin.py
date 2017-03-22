@@ -14,8 +14,8 @@ import gettext
 
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtWidgets import QWidget, QLineEdit
-from PyQt5.QtCore import pyqtSignal, QTimer
+from PyQt5.Qt import QWidget, pyqtSignal, QLineEdit, QTimer
+
 from pds.thread import PThread
 from pds.gui import PMessageBox, MIDCENTER, CURRENT, OUT
 

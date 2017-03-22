@@ -4,8 +4,7 @@ import copy
 import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtWidgets import QWidget, QTreeWidgetItem
-from PyQt5.QtCore import pyqtSignal, QObject, QSize
+from PyQt5.Qt import QWidget, QTreeWidgetItem, pyqtSignal, QObject, QSize
 
 import yali.context as ctx
 from yali.gui.YaliDialog import Dialog

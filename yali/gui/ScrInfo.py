@@ -12,8 +12,8 @@
 import gettext
 _ = gettext.translation('yali', fallback=True).ugettext
 
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.Qt import QWidget, pyqtSignal
+
 import yali.context as ctx
 from yali.gui import ScreenWidget
 from yali.gui.Ui.info import Ui_InfoWidget
