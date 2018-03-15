@@ -504,7 +504,7 @@ def getNextPartitionType(disk, no_primary=None):
     extended = disk.getExtendedPartition()
     supportsExtended = disk.supportsFeature(parted.DISK_TYPE_EXTENDED)
     logicalCount = len(disk.getLogicalPartitions())
-    maxLogicals = disk.getMaxLogicalPartitions()
+    #maxLogicals = disk.getMaxLogicalPartitions()
     primaryCount = disk.primaryPartitionCount
 
     if primaryCount < disk.maxPrimaryPartitionCount:
